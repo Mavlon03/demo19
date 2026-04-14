@@ -1,0 +1,31 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+bot:
+  enable-legacy-bot: false
+  token: ${BOT_TOKEN}
+  username: ${BOT_USERNAME}
+  source-group-id: ${SOURCE_GROUP_ID}
+  region-groups:
+    toshkent-city: ${REGION_TOSHKENT_CITY_ID:0}
+    toshkent-region: ${REGION_TOSHKENT_REGION_ID:0}
+    samarqand: ${REGION_SAMARQAND_ID:0}
+    jizzax: ${REGION_JIZZAX_ID:0}
+    andijon: ${REGION_ANDIJON_ID:0}
+    namangan: ${REGION_NAMANGAN_ID:0}
+    fargona: ${REGION_FARGONA_ID:0}
+    buxoro: ${REGION_BUXORO_ID:0}
+    xorazm: ${REGION_XORAZM_ID:0}
+    navoiy: ${REGION_NAVOIY_ID:0}
+    qashqadaryo: ${REGION_QASHQADARYO_ID:0}
+    surxondaryo: ${REGION_SURXONDARYO_ID:0}
+    sirdaryo: ${REGION_SIRDARYO_ID:0}
+    qoraqalpoq: ${REGION_QORAQALPOQ_ID:0}
+
+userbot:
+  python-service-url: ${PYTHON_SERVICE_URL:http://localhost:8081}
+
+logging:
+  level:
+    org.telegram: DEBUG

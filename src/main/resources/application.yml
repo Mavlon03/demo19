@@ -3,10 +3,10 @@ spring:
     import: optional:file:.env[.properties]
 
 bot:
-  enable-legacy-bot: false
-  token: ${BOT_TOKEN}
-  username: ${BOT_USERNAME}
-  source-group-id: ${SOURCE_GROUP_ID}
+  enable-legacy-bot: ${BOT_ENABLE_LEGACY_BOT:false}
+  token: ${BOT_TOKEN:}
+  username: ${BOT_USERNAME:}
+  source-group-id: ${SOURCE_GROUP_ID:0}
   region-groups:
     toshkent-city: ${REGION_TOSHKENT_CITY_ID:0}
     toshkent-region: ${REGION_TOSHKENT_REGION_ID:0}
@@ -22,9 +22,6 @@ bot:
     surxondaryo: ${REGION_SURXONDARYO_ID:0}
     sirdaryo: ${REGION_SIRDARYO_ID:0}
     qoraqalpoq: ${REGION_QORAQALPOQ_ID:0}
-
-userbot:
-  python-service-url: ${PYTHON_SERVICE_URL:http://localhost:8081}
 
 logging:
   level:

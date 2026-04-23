@@ -1,4 +1,16 @@
 services:
+  spring-bot:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "bash -lc \"exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET /api/health HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && grep '200' <&3\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   userbot:
     build: ./userbot
     ports:
@@ -6,15 +18,9 @@ services:
     volumes:
       - ./userbot/session:/app/session
     env_file: .env
-    restart: unless-stopped
-
-  spring-bot:
-    build: .
-    ports:
-      - "8080:8080"
-    env_file: .env
-    depends_on:
-      - userbot
     environment:
-      PYTHON_SERVICE_URL: http://userbot:8081
+      SPRING_DETECT_URL: http://spring-bot:8080/api/detect
+    depends_on:
+      spring-bot:
+        condition: service_healthy
     restart: unless-stopped

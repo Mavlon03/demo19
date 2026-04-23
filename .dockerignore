@@ -1,6 +1,5 @@
 target
 **/target
-.mvn
 .git
 .gitignore
 Dockerfile
@@ -12,5 +11,6 @@ node_modules
 *.pyc
 *.pyo
 *.pyd
-.env
 *.session
+.env
+userbot/session

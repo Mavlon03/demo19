@@ -3,27 +3,26 @@ package uz.freight.bot.bot;
 import java.util.Objects;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import uz.freight.bot.config.BotConfig;
 import uz.freight.bot.service.RegionDetectorService;
-import uz.freight.bot.userbot.UserbotClient;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(name = "bot.enable-legacy-bot", havingValue = "true", matchIfMissing = false)
 public class FreightBot extends TelegramLongPollingBot {
 
     private final BotConfig botConfig;
     private final RegionDetectorService detectorService;
-    private final UserbotClient userbotClient;
 
-    public FreightBot(BotConfig botConfig, RegionDetectorService detectorService, UserbotClient userbotClient) {
+    public FreightBot(BotConfig botConfig, RegionDetectorService detectorService) {
         super(botConfig.getToken());
         this.botConfig = botConfig;
         this.detectorService = detectorService;
-        this.userbotClient = userbotClient;
     }
 
     @Override
@@ -75,11 +74,7 @@ public class FreightBot extends TelegramLongPollingBot {
     }
 
     private void forwardMessage(Message message, Long groupId) {
-        boolean forwarded = userbotClient.forward(message.getChatId(), message.getMessageId(), groupId);
-        if (forwarded) {
-            log.info("Forwarded messageId={} to groupId={}", message.getMessageId(), groupId);
-        } else {
-            log.error("Failed to forward messageId={} to groupId={}", message.getMessageId(), groupId);
-        }
+        log.warn("Legacy FreightBot forwarding is disabled. messageId={}, groupId={}",
+                message.getMessageId(), groupId);
     }
 }
